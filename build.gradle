@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://maven.pkg.github.com/raystarkmc/ExtendedFunctionLibrary'
+        credentials {
+            username = project.findProperty("github.username")
+            password = project.findProperty("github.password")
+        }
+    }
+}
+
+dependencies {
+    compileOnly 'org.jetbrains:annotations:20.1.0'
+    implementation 'raystark:extended_function_library:1.4.3'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+group 'raystark'
+version '1.0-SNAPSHOT'
+
+ext {
+    defaultEncoding = 'UTF-8'
+    javaVersion = JavaVersion.VERSION_15
+    pathLicense = file "$projectDir/LICENSE"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding defaultEncoding
+}
+
+tasks.withType(Jar) {
+    from pathLicense
+}
+
+javadoc {
+    options.encoding defaultEncoding
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+    setSourceCompatibility javaVersion
+    setTargetCompatibility javaVersion
+}
