@@ -17,11 +17,6 @@ final class PostorderIterator<T> implements Iterator<T> {
             .ifPresent(stack::push);
     }
 
-    private Option<Node<T>> tryFilterLeft(Node<T> leaf) {
-        return Option.ofNullable(stack.peek())
-            .filter(parent -> parent.getLeft().anyMatch(left -> leaf == left));
-    }
-
     private Option<Node<T>> down(Node<T> node) {
         return node.getLeft().or(node.getRight());
     }
@@ -35,7 +30,8 @@ final class PostorderIterator<T> implements Iterator<T> {
     public T next() {
         return Option.ofNullable(stack.poll())
             .whenPresent(
-                leaf -> this.tryFilterLeft(leaf)
+                leaf -> Option.ofNullable(stack.peek())
+                    .filter(parent -> parent.getLeft().anyMatch(leaf))
                     .flatMap(Node::getRight)
                     .repeatMapWithSideEffect(this::down, stack::push)
                     .ifPresent(stack::push)
