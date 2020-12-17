@@ -1,6 +1,5 @@
 package raystark.iterablesample;
 
-import raystark.eflib.option.Option;
 import raystark.eflib.option.Option.Some;
 
 public class Main {
