@@ -1,5 +1,6 @@
 package raystark.iterablesample;
 
+import raystark.eflib.option.Option;
 import raystark.eflib.option.Option.Some;
 
 public class Main {
@@ -24,19 +25,23 @@ public class Main {
         ));
 
         System.out.println("Preorder");
-        tree.preorderIterable().forEach(System.out::println);
+        for(var value : tree.preorderIterable())
+            System.out.print(" " + value);
         System.out.println();
 
         System.out.println("Inorder");
-        tree.inorderIterable().forEach(System.out::println);
+        for(var value : tree.inorderIterable())
+            System.out.print(" " + value);
         System.out.println();
 
         System.out.println("Postorder");
-        tree.postorderIterable().forEach(System.out::println);
+        for(var value : tree.postorderIterable())
+            System.out.print(" " + value);
         System.out.println();
 
         System.out.println("BreathFirst");
-        tree.breadthFirstIterable().forEach(System.out::println);
+        for(var value : tree.breadthFirstIterable())
+            System.out.print(" " + value);
         System.out.println();
     }
 }
