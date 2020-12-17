@@ -11,9 +11,9 @@ import java.util.Iterator;
 final class InorderIterator<T> implements Iterator<T> {
     private final Deque<Node<T>> stack;
 
-    InorderIterator(@NotNull Option<Node<T>> root) {
+    InorderIterator(@NotNull BinaryTree<T> tree) {
         this.stack = new ArrayDeque<>();
-        root.repeatMapWithSideEffect(Node::getLeft, stack::push).ifPresent(stack::push);
+        tree.root().repeatMapWithSideEffect(Node::getLeft, stack::push).ifPresent(stack::push);
     }
 
     @Override

@@ -11,9 +11,9 @@ import java.util.Iterator;
 final class PreorderIterator<T> implements Iterator<T> {
     private final Deque<Node<T>> stack;
 
-    PreorderIterator(@NotNull Option<Node<T>> root) {
+    PreorderIterator(@NotNull BinaryTree<T> tree) {
         this.stack = new ArrayDeque<>();
-        root.ifPresent(stack::push);
+        tree.root().ifPresent(stack::push);
     }
 
     @Override
@@ -24,8 +24,10 @@ final class PreorderIterator<T> implements Iterator<T> {
     @Override
     public @NotNull T next() {
         return Option.ofNullable(stack.poll())
-            .whenPresent(node -> node.getRight().ifPresent(stack::push))
-            .whenPresent(node -> node.getLeft().ifPresent(stack::push))
+            .whenPresent(polledNode -> {
+                polledNode.getRight().ifPresent(stack::push);
+                polledNode.getLeft().ifPresent(stack::push);
+            })
             .orElseThrow()
             .value();
     }

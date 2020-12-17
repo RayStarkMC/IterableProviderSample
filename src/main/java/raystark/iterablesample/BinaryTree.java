@@ -3,30 +3,30 @@ package raystark.iterablesample;
 import org.jetbrains.annotations.NotNull;
 import raystark.eflib.option.Option;
 
-public class BinaryTree<T> {
+public final class BinaryTree<T> {
     private final Option<Node<T>> root;
 
     public BinaryTree(@NotNull Option<Node<T>> root) {
         this.root = root;
     }
 
-    private @NotNull Option<Node<T>> root() {
+    public @NotNull Option<Node<T>> root() {
         return this.root;
     }
 
     public @NotNull Iterable<T> preorderIterable() {
-        return () -> new PreorderIterator<>(root());
+        return () -> new PreorderIterator<>(this);
     }
 
     public @NotNull Iterable<T> inorderIterable() {
-        return () -> new InorderIterator<>(root());
+        return () -> new InorderIterator<>(this);
     }
 
     public @NotNull Iterable<T> postorderIterable() {
-        return () -> new PostorderIterator<>(root());
+        return () -> new PostorderIterator<>(this);
     }
 
     public @NotNull Iterable<T> breadthFirstIterable() {
-        return () -> new BreadthFirstIterator<>(root());
+        return () -> new BreadthFirstIterator<>(this);
     }
 }

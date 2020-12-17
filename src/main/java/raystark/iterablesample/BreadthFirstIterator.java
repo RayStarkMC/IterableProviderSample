@@ -10,9 +10,9 @@ import java.util.Queue;
 final class BreadthFirstIterator<T> implements Iterator<T> {
     private final Queue<Node<T>> queue;
 
-    BreadthFirstIterator(@NotNull Option<Node<T>> root) {
+    BreadthFirstIterator(@NotNull BinaryTree<T> tree) {
         queue = new ArrayDeque<>();
-        root.ifPresent(queue::offer);
+        tree.root().ifPresent(queue::offer);
     }
 
     @Override
@@ -23,8 +23,10 @@ final class BreadthFirstIterator<T> implements Iterator<T> {
     @Override
     public T next() {
         return Option.ofNullable(queue.poll())
-            .whenPresent(node -> node.getLeft().ifPresent(queue::offer))
-            .whenPresent(node -> node.getRight().ifPresent(queue::offer))
+            .whenPresent(polledNode -> {
+                polledNode.getLeft().ifPresent(queue::offer);
+                polledNode.getRight().ifPresent(queue::offer);
+            })
             .orElseThrow()
             .value();
     }

@@ -11,9 +11,9 @@ import java.util.Iterator;
 final class PostorderIterator<T> implements Iterator<T> {
     private final Deque<Node<T>> stack;
 
-    PostorderIterator(@NotNull Option<Node<T>> root) {
+    PostorderIterator(@NotNull BinaryTree<T> tree) {
         this.stack = new ArrayDeque<>();
-        root.repeatMapWithSideEffect(this::down, stack::push)
+        tree.root().repeatMapWithSideEffect(this::down, stack::push)
             .ifPresent(stack::push);
     }
 
@@ -35,7 +35,8 @@ final class PostorderIterator<T> implements Iterator<T> {
                     .flatMap(Node::getRight)
                     .repeatMapWithSideEffect(this::down, stack::push)
                     .ifPresent(stack::push)
-            ).orElseThrow()
+            )
+            .orElseThrow()
             .value();
     }
 }
